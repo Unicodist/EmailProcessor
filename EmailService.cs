@@ -25,19 +25,14 @@ public class EmailService
             throw new InvalidOperationException("Aws email is not configured");
         }
 
-        BasicAWSCredentials credentials = new BasicAWSCredentials(Model!.Key, Model.Pass);
-        using var client = new AmazonSimpleEmailServiceClient(credentials, RegionEndpoint.AFSouth1);
+        BasicAWSCredentials credentials = new(Model!.Key, Model.Pass);
+        using var client = new AmazonSimpleEmailServiceClient(credentials, Model.RegionEndpoint);
         var body = new Body()
         {
             Html = new Content()
             {
                 Charset = "UTF-8",
                 Data = model.Data,
-            },
-            Text = new Content()
-            {
-                Charset = "UTF-8",
-                Data = model.Data
             }
         };
         var destinations = new Destination() { ToAddresses = model.Destinations };
